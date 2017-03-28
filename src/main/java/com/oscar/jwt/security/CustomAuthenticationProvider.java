@@ -1,14 +1,11 @@
 package com.oscar.jwt.security;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.oscar.jwt.model.User;
@@ -24,24 +21,32 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) 
       throws AuthenticationException {
   
+    	
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
          
 
         // use the credentials
         // and authenticate against the third-party system
-        Collection<? extends GrantedAuthority> authorities = shouldAuthenticateAgainstThirdPartySystem(name, password);
+        User user = shouldAuthenticateAgainstThirdPartySystem(name, password);
     
-        if ( authorities !=null) {
+        if ( user !=null) {
   
+        	//User user =User 
             return new UsernamePasswordAuthenticationToken(
-              name, password, authorities);
+              name, password, user.getAuthorities());
         } else {
             return null;
         }
     }
  
-    private Collection<? extends GrantedAuthority> shouldAuthenticateAgainstThirdPartySystem(String name, String password) {
+    /**
+     * 
+     * @param name
+     * @param password
+     * @return
+     */
+    private User shouldAuthenticateAgainstThirdPartySystem(String name, String password) {
 		
     	
     	User user = userService.loadUserByUsername(name);
@@ -56,7 +61,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
     	
     	
-		return user.getAuthorities();
+		return user;
 	}
 
 	@Override

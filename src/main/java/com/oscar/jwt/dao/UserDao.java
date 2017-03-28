@@ -13,7 +13,7 @@ public class UserDao {
  
     public User loadUserByUsername(final String username) {
     	
-    	if (!username.equals("osgarcia") && !username.equals("dummyuser")){
+    	if (!username.equals("osgarcia") && !username.equals("dummyuser1")){
     		return null;
     	}
     	
@@ -27,24 +27,24 @@ public class UserDao {
             user.setPassword("password123");
             
             Role r1 = new Role();
-            r1.setName("ROLE_ADMIN");
+            r1.setName("ADMIN");
 
             Role r2 = new Role();
-            r2.setName("ROLE_USER");
+            r2.setName("USER");
 
             roles.add(r1);
             roles.add(r2);
             
         }
  
-        if (username.equals("dummyuser")){
+        if (username.equals("dummyuser1")){
             user.setFirstName("dummy");
-            user.setLastName("user");
+            user.setLastName("user1");
             user.setUsername("dummyuser");
             user.setPassword("password888");
             
             Role r1 = new Role();
-            r1.setName("ROLE_USER");
+            r1.setName("USER");
 
             roles.add(r1);
             
